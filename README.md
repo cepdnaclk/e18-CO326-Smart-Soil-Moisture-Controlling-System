@@ -1,7 +1,7 @@
 ___
-# DELETE THIS INSTRUCTIONS AND ADD A SHORT INTRODUCTION ABOUT YOUR PROJECT
+# Smart soil moisture controlling system using ESP8266
 ___
 
-## Please refer the instructions in below URL:
+Here we are building an IoT-based Irrigation System using ESP8266 NodeMCU Module, Soil moisture sensor, and DHT11 Sensor. The System will consist of a water pump which will be used to sprinkle water on the land depending upon the land's environmental conditions such as Moisture, Temperature, and Humidity. The system will maintain the soil moisture based on the temperature of the environment.
 
-https://projects.ce.pdn.ac.lk/docs/how-to-add-a-project
+## Hardware design
