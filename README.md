@@ -5,7 +5,8 @@ ___
 Here we are building an IoT-based Irrigation System using ESP8266 NodeMCU Module, Soil moisture sensor, and DHT11 Sensor. The System will consist of a water pump which will be used to sprinkle water on the land depending upon the land's environmental conditions such as Moisture, Temperature, and Humidity. The system will maintain the soil moisture based on the temperature of the environment.
 
 ## Hardware design
-![Hardware design](/docs/images/Harware design.PNG)
+
+<img src="/docs/images/Hardware_design.PNG" alt="Hardware_design"/>
 
 ## Soil moisture sensor
 
@@ -35,7 +36,7 @@ The DHT11 is a commonly used Temperature and humidity sensor. The sensor comes w
 - Resolution: Temperature and Humidity both are 16-bit
 - Accuracy: ±1°C and ±1%
 	
-### Water pump - 3V To 12V Mini DC Submersible Pump
+## Water pump - 3V To 12V Mini DC Submersible Pump
 
 This DC-operated mini submersible water pump is ideal for small vending machines and other applications, in which a small amount of water has to be pumped. The operating voltage for this DC pump is between 3 to 12V and can be easily controlled with development boards like Arduino, Raspberry Pi, ESP, and other microcontrollers, so also frequently used in DIY electronics projects and hobby projects. The pumping height for this mini DC water pump is between 40 to 110 cm.
 
