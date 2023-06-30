@@ -1,0 +1,410 @@
+[
+    {
+        "id": "4c27fcddb09b8a15",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d731b6e7475809fd",
+        "type": "ui_chart",
+        "z": "4c27fcddb09b8a15",
+        "name": "",
+        "group": "0b4363f044592da0",
+        "order": 2,
+        "width": "6",
+        "height": "5",
+        "label": "Soil moisture",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": true,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "x": 410,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a700ed1aa76d4eee",
+        "type": "ui_gauge",
+        "z": "4c27fcddb09b8a15",
+        "name": "",
+        "group": "0b4363f044592da0",
+        "order": 0,
+        "width": "6",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 400,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "d006f57ff8d83dd9",
+        "type": "mqtt in",
+        "z": "4c27fcddb09b8a15",
+        "name": "Soil moisture percentage",
+        "topic": "UoP_CO_326_E18_09_soil_moisture",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "780ad117627eab2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 680,
+        "wires": [
+            [
+                "d731b6e7475809fd",
+                "6da66405bb839a01"
+            ]
+        ]
+    },
+    {
+        "id": "e11fc5a0c4c383b2",
+        "type": "mqtt in",
+        "z": "4c27fcddb09b8a15",
+        "name": "Temperature",
+        "topic": "UoP_CO_326_E18_09_dht11_temp",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "780ad117627eab2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 420,
+        "wires": [
+            [
+                "abb11b864fddb211",
+                "675401c9ad965ba8"
+            ]
+        ]
+    },
+    {
+        "id": "b7e64d437c32e894",
+        "type": "mqtt in",
+        "z": "4c27fcddb09b8a15",
+        "name": "Humidity",
+        "topic": "UoP_CO_326_E18_09_dht11_hum",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "780ad117627eab2e",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "a700ed1aa76d4eee",
+                "1a04a8d606591d87"
+            ]
+        ]
+    },
+    {
+        "id": "abb11b864fddb211",
+        "type": "ui_gauge",
+        "z": "4c27fcddb09b8a15",
+        "name": "",
+        "group": "0b4363f044592da0",
+        "order": 1,
+        "width": "6",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Temperature",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 410,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "1a04a8d606591d87",
+        "type": "function",
+        "z": "4c27fcddb09b8a15",
+        "name": "Insert query",
+        "func": "var hum = msg.payload;\n// var hum = msg.payload.hum;\n\n// msg.payload = [temp, hum];\nmsg.payload = [hum];\n\n// msg.topic = \"INSERT INTO room1 (temperature, humidity) VALUES (?,?);\";\nmsg.topic = \"INSERT INTO humidity (humidity) VALUES (?);\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "ce18381225adfc7a"
+            ]
+        ]
+    },
+    {
+        "id": "675401c9ad965ba8",
+        "type": "function",
+        "z": "4c27fcddb09b8a15",
+        "name": "Insert query",
+        "func": "var temp = msg.payload;\n// var hum = msg.payload.hum;\n\n// // msg.payload = [temp, hum];\nmsg.payload = [temp];\n\n// msg.topic = \"INSERT INTO room1 (temperature, humidity) VALUES (?,?);\";\nmsg.topic = \"INSERT INTO temperature (temperature) VALUES (?);\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 400,
+        "wires": [
+            [
+                "6cd601d8e9c403ec"
+            ]
+        ]
+    },
+    {
+        "id": "6da66405bb839a01",
+        "type": "function",
+        "z": "4c27fcddb09b8a15",
+        "name": "Insert function",
+        "func": "var moisture = msg.payload;\n// var hum = msg.payload.hum;\n\n// msg.payload = [temp, hum];\nmsg.payload = [moisture];\n\n// msg.topic = \"INSERT INTO room1 (temperature, humidity) VALUES (?,?);\";\nmsg.topic = \"INSERT INTO moisture (moisture) VALUES (?);\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 660,
+        "wires": [
+            [
+                "a189edb82bf8ba6c"
+            ]
+        ]
+    },
+    {
+        "id": "b60d3762e7424189",
+        "type": "inject",
+        "z": "4c27fcddb09b8a15",
+        "name": "Create table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "drop table if EXISTS temperature;  CREATE TABLE temperature(temp_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,temperature char(8)  NULL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 460,
+        "wires": [
+            [
+                "6cd601d8e9c403ec"
+            ]
+        ],
+        "icon": "font-awesome/fa-table"
+    },
+    {
+        "id": "fd385603e30e0ead",
+        "type": "inject",
+        "z": "4c27fcddb09b8a15",
+        "name": "Create table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "drop table if EXISTS humidity;  CREATE TABLE humidity(hum_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,humidity char(8)  NULL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 220,
+        "wires": [
+            [
+                "ce18381225adfc7a"
+            ]
+        ],
+        "icon": "font-awesome/fa-table"
+    },
+    {
+        "id": "063e401addee22f9",
+        "type": "inject",
+        "z": "4c27fcddb09b8a15",
+        "name": "Create table",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "drop table if EXISTS moisture;  CREATE TABLE moisture(moisture_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,moisture char(8)  NULL);",
+        "payload": "",
+        "payloadType": "date",
+        "x": 430,
+        "y": 760,
+        "wires": [
+            [
+                "a189edb82bf8ba6c"
+            ]
+        ],
+        "icon": "font-awesome/fa-table"
+    },
+    {
+        "id": "ce18381225adfc7a",
+        "type": "mysql",
+        "z": "4c27fcddb09b8a15",
+        "mydb": "126d8a30538952f0",
+        "name": "mysql",
+        "x": 630,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6cd601d8e9c403ec",
+        "type": "mysql",
+        "z": "4c27fcddb09b8a15",
+        "mydb": "126d8a30538952f0",
+        "name": "mysql",
+        "x": 630,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a189edb82bf8ba6c",
+        "type": "mysql",
+        "z": "4c27fcddb09b8a15",
+        "mydb": "126d8a30538952f0",
+        "name": "mysql",
+        "x": 630,
+        "y": 720,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0b4363f044592da0",
+        "type": "ui_group",
+        "name": "Sensors",
+        "tab": "66cad66790d8900c",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "780ad117627eab2e",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "test.mosquitto.org",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "126d8a30538952f0",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "co326_project",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "66cad66790d8900c",
+        "type": "ui_tab",
+        "name": "Sensors",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
